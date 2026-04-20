@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UBD SDS CreditTrack</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="page active">
+        <div class="login-container">
+            <div class="login-header">
+                <img src="ubd-logo.png" alt="UBD Logo" class="ubd-logo">
+                <h1>UBD SDS<br><span class="highlight">CreditTrack</span></h1>
+                <p class="subtitle">Modular Credit Tracking System</p>
+            </div>
+            <div class="login-form">
+                <div class="input-group">
+                    <label for="regNumber">Registration Number</label>
+                    <input type="text" id="regNumber" placeholder="e.g., 22B6000" maxlength="7">
+                </div>
+                <button id="loginBtn" class="btn-primary">Sign In</button>
+                <p class="helper-text">Enter your registration number to continue</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp" class="page">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <img src="ubd-logo.png" alt="UBD Logo" class="nav-logo">
+                <span class="nav-title">CreditTrack</span>
+            </div>
+            <div class="nav-menu">
+                <button class="nav-link active" data-page="dashboard">
+                    <span class="icon">📊</span>
+                    Dashboard
+                </button>
+                <button class="nav-link" data-page="modules">
+                    <span class="icon">📚</span>
+                    Modules
+                </button>
+                <button class="nav-link" data-page="breakdown">
+                    <span class="icon">📈</span>
+                    Breakdown
+                </button>
+            </div>
+            <div class="nav-user">
+                <span id="userRegNumber"></span>
+                <button id="logoutBtn" class="btn-secondary">Logout</button>
+            </div>
+        </nav>
+
+        <!-- Dashboard Page -->
+        <div id="dashboardPage" class="content-page active">
+            <div class="container">
+                <div class="page-header">
+                    <div>
+                        <h1>Dashboard</h1>
+                        <p class="page-subtitle">Your academic progress overview</p>
+                    </div>
+                    <div class="programme-selector">
+                        <label>Programme:</label>
+                        <select id="programmeSelect">
+                            <option value="">Select Programme</option>
+                            <option value="Applied Artificial Intelligence">Applied Artificial Intelligence</option>
+                            <option value="Artificial Intelligence & Robotics">Artificial Intelligence & Robotics</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Cybersecurity and Forensics">Cybersecurity and Forensics</option>
+                            <option value="Data Science">Data Science</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Overall Progress -->
+                <div class="progress-card main-progress">
+                    <div class="progress-header">
+                        <h2>Overall Progress</h2>
+                        <div class="credit-display">
+                            <span class="current-credits" id="totalCredits">0</span>
+                            <span class="separator">/</span>
+                            <span class="max-credits">152</span>
+                            <span class="unit">MC</span>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="overallProgressBar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <span class="progress-percentage" id="overallProgressPercent">0%</span>
+                    </div>
+                </div>
+
+                <!-- Category Cards -->
+                <div class="category-grid" id="categoryGrid">
+                    <!-- Categories will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Modules Page -->
+        <div id="modulesPage" class="content-page">
+            <div class="container">
+                <div class="page-header">
+                    <div>
+                        <h1>Manage Modules</h1>
+                        <p class="page-subtitle">Add and track your completed modules</p>
+                    </div>
+                    <button id="addModuleBtn" class="btn-primary">
+                        <span class="icon">➕</span>
+                        Add Module
+                    </button>
+                </div>
+
+                <!-- Module Form -->
+                <div id="moduleForm" class="module-form hidden">
+                    <div class="form-card">
+                        <h3>Add New Module</h3>
+                        <div class="form-notice" id="customModuleNotice" style="display: none;">
+                            <p>ℹ️ Module not found in database. You can enter custom module details below.</p>
+                        </div>
+                        <div class="form-grid">
+                            <div class="input-group">
+                                <label for="moduleCode">Module Code</label>
+                                <input type="text" id="moduleCode" placeholder="e.g., ZS-4301" list="moduleCodeList">
+                                <datalist id="moduleCodeList"></datalist>
+                            </div>
+                            <div class="input-group">
+                                <label for="moduleName">Module Name</label>
+                                <input type="text" id="moduleName" placeholder="Enter module name">
+                            </div>
+                            <div class="input-group">
+                                <label for="moduleCredits">Credits (MC)</label>
+                                <input type="number" id="moduleCredits" value="4" min="1" max="16">
+                            </div>
+                            <div class="input-group">
+                                <label for="moduleYear">Year</label>
+                                <select id="moduleYear">
+                                    <option value="1">Year 1</option>
+                                    <option value="2">Year 2</option>
+                                    <option value="3">Year 3</option>
+                                    <option value="4">Year 4</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="moduleType">Type</label>
+                                <select id="moduleType">
+                                    <option value="Degree Core">Degree Core</option>
+                                    <option value="Compulsory Breadth">Compulsory Breadth</option>
+                                    <option value="Major Core">Major Core</option>
+                                    <option value="Major Option">Major Option</option>
+                                    <option value="Discovery Year">Discovery Year</option>
+                                    <option value="Outside Breadth">Outside Breadth</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button id="cancelModuleBtn" class="btn-secondary">Cancel</button>
+                            <button id="saveModuleBtn" class="btn-primary">Save Module</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modules Table -->
+                <div class="modules-table-container">
+                    <table class="modules-table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Module Name</th>
+                                <th>Year</th>
+                                <th>Type</th>
+                                <th>Credits</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modulesTableBody">
+                            <!-- Modules will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                    <div id="emptyModulesMessage" class="empty-message">
+                        <p>No modules added yet. Click "Add Module" to get started.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Breakdown Page -->
+        <div id="breakdownPage" class="content-page">
+            <div class="container">
+                <div class="page-header">
+                    <div>
+                        <h1>Credit Breakdown</h1>
+                        <p class="page-subtitle">Detailed analysis of your academic progress</p>
+                    </div>
+                </div>
+
+                <!-- Summary Cards -->
+                <div class="summary-cards">
+                    <div class="summary-card">
+                        <div class="summary-icon completed">✓</div>
+                        <div class="summary-content">
+                            <p class="summary-label">Completed</p>
+                            <h3 class="summary-value" id="completedCredits">0 MC</h3>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon required">📋</div>
+                        <div class="summary-content">
+                            <p class="summary-label">Required</p>
+                            <h3 class="summary-value">152 MC</h3>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-icon remaining">⏳</div>
+                        <div class="summary-content">
+                            <p class="summary-label">Remaining</p>
+                            <h3 class="summary-value" id="remainingCredits">152 MC</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alerts -->
+                <div id="alertsContainer" class="alerts-container">
+                    <!-- Alerts will be dynamically inserted here -->
+                </div>
+
+                <!-- Breakdown Table -->
+                <div class="breakdown-table-container">
+                    <table class="breakdown-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Required</th>
+                                <th>Completed</th>
+                                <th>Progress</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="breakdownTableBody">
+                            <!-- Breakdown rows will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="modules-data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
